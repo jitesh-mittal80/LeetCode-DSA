@@ -9,7 +9,7 @@ public:
             target = nums[i];
             count = 0;
             for (int j = 0; j<n; j++){
-                if (nums[j] == nums[i]){
+                if (nums[j] == target){
                     count++;
                 }
             }
