@@ -1,7 +1,13 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        return nums[0];
+        int gmin = nums[0];
+
+        for (int i = 1; i< nums.size(); i++){
+            int localmin = nums[i];
+            gmin = min(localmin, gmin);
+        }
+
+        return gmin;
     }
 };
