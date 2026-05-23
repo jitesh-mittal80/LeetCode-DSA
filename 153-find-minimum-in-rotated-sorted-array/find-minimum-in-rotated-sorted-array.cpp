@@ -1,13 +1,23 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int gmin = nums[0];
+        int low = 0;
+        int high = nums.size() - 1;
+        int ans = INT_MAX;
 
-        for (int i = 1; i< nums.size(); i++){
-            int localmin = nums[i];
-            gmin = min(localmin, gmin);
+        while(low<=high){
+            int mid = low + (high-low)/2;
+
+            if (nums[low] <= nums[mid]){
+                ans = min(ans, nums[low]);
+                low = mid+1;
+            }
+            else{
+                ans = min(ans, nums[mid]);
+                high = mid -1;
+            }
         }
 
-        return gmin;
+        return ans;
     }
 };
