@@ -1,24 +1,50 @@
 class Solution {
 public:
     int searchInsert(vector<int>& nums, int target) {
-        int left = 0;
-        int right = nums.size() - 1;
-        int result;
+        int low = 0;
+        int high = nums.size() - 1;
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+        if (find(nums.begin(), nums.end(), target) == nums.end()){
+            nums.push_back(target);
+            sort(nums.begin(), nums.end());
 
-            if (nums[mid] == target) {
-                return mid;
-            }
-            else if (nums[mid] < target) {
-                left = mid + 1;
-            }
-            else {
-                right = mid - 1;
+            int tlow = 0;
+            int thigh = nums.size() - 1;
+
+            while(tlow<=thigh){
+                int tmid = tlow + (thigh - tlow)/2;
+
+                if (nums[tmid] == target){
+                    return tmid;
+                }
+
+                else if (nums[tmid] > target){
+                    thigh = tmid - 1;
+                }
+
+                else{
+                    tlow = tmid+1;
+                }
             }
         }
 
-        return left;
+        while(low<=high){
+            int mid = low + (high - low)/2;
+
+            if (nums[mid] == target){
+                return mid;
+            }
+
+            else if (nums[mid] > target){
+                high = mid - 1;
+            }
+
+            else{
+                low = mid+1;
+            }
+        }
+
+        return -1;
+
     }
 };
