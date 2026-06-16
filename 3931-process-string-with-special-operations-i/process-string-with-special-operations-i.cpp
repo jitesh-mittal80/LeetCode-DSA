@@ -1,32 +1,16 @@
 class Solution {
 public:
     string processStr(string s) {
-        string result = "";
-        
-        for (int i = 0; i < s.size(); i++){
-            if (islower(s[i])){
-                result = result + s[i];
+        string ans="";
+        for(char ch:s){
+            if(ch=='*' && ans.size()>=1)ans.pop_back();
+            else if(ch=='#' && ans.size()>=1){
+                string temp=ans;
+                ans+=temp;
             }
-
-            else if (s[i] == '*'){
-                if (result.empty()){
-                    continue;
-                }
-
-                else{
-                    result.pop_back();
-                }
-            }
-
-            else if (s[i] == '#'){
-                result  = result + result;
-            }
-
-            else if (s[i] == '%'){
-                reverse(result.begin(), result.end());
-            }
+            else if(ch=='%')reverse(ans.begin(),ans.end());
+            if(ch>='a' && ch<='z')ans+=ch;
         }
-
-        return result;
+        return ans;
     }
 };
