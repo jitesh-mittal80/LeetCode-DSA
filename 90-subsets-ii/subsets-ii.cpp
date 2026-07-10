@@ -8,7 +8,7 @@ public:
         return res;        
     }
 
-private:
+public:
     void backtrack(int i, vector<int>& nums, vector<int>& subset, vector<vector<int>>& res) {
         if (i == nums.size()) {
             res.push_back(subset);
