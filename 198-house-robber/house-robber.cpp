@@ -2,12 +2,11 @@ class Solution {
 public:
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int> dp(n+1, -1);
+        vector<int> dp(n, -1);
         return money(nums, 0, dp);
     }
 
     int money(vector<int>& nums, int i, vector<int>& dp){
-        int amount = 0;
         if(i >= nums.size()){
             return 0;
         }
