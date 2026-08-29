@@ -1,43 +1,43 @@
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int m = prerequisites.size();
-		
-		vector<int>adj[numCourses];
-		
-		vector<int>in(numCourses, 0);
-		
-		for(int i =0;i<prerequisites.size();i++){
-		    int u = prerequisites[i][0];
-		    int v = prerequisites[i][1];
-		    
-		    adj[v].push_back(u);
-		    in[u]++;
-		}
-		
-		
-		queue<int>q;
-		for (int i = 0; i<in.size(); i++) {
-			if (in[i] == 0)
-				q.push(i);
-		}
-		
-		vector<int>ans;
-		while (!q.empty()) {
-			int node = q.front();
-			q.pop();
-			ans.push_back(node);
-			
-			for (int i = 0; i<adj[node].size();i++) {
-				in[adj[node][i]]--;
-				if (in[adj[node][i]] == 0)
-					q.push(adj[node][i]);
-			}
-		}
-		
-		
-		if (ans.size() != numCourses)
-			return {};
-		return ans;
+        int n = numCourses;
+        vector<vector<int>> adj(n);
+        vector<int> ind(n, 0);
+        vector<int> order;
+
+        for(auto &p : prerequisites){
+            int c = p[0];
+            int pre = p[1];
+
+            adj[pre].push_back(c);
+            ind[c]++;
+        }
+
+        queue<int> q;
+        for(int i = 0; i<n; i++){
+            if(ind[i] == 0){
+                q.push(i);
+            }
+        }
+
+        while(!q.empty()){
+
+            int c = q.front();
+            q.pop();
+            order.push_back(c);
+
+            for(auto it : adj[c]){
+                ind[it]--;
+                if(ind[it] == 0){
+                    q.push(it);
+                }
+            }
+        }
+
+        if(order.size() != n){
+            return {};
+        }
+        return order;
     }
 };
