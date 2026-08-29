@@ -1,49 +1,41 @@
 class Solution {
 public:
-
-    bool dfs(int node, vector<vector<int>>& adj, vector<int>& visited, vector<int>& path) {
-
-        visited[node] = 1;
-        path[node] = 1;
-
-        for(int neighbour : adj[node]) {
-
-            if(!visited[neighbour]) {
-                if(dfs(neighbour, adj, visited, path))
-                    return true;
-            }
-
-            else if(path[neighbour]) {
-                return true;
-            }
-        }
-
-        path[node] = 0;
-        return false;
-    }
-
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int n = numCourses;
+        vector<vector<int>> adj(n);
+        vector<int> ind(n, 0);
 
-        vector<vector<int>> adj(numCourses);
+        for(auto &p : prerequisites){
+            int c = p[0];
+            int pre = p[1];
 
-        for(auto it : prerequisites) {
-            int course = it[0];
-            int prerequisite = it[1];
-
-            adj[prerequisite].push_back(course);
+            adj[pre].push_back(c);
+            ind[c]++;
         }
 
-        vector<int> visited(numCourses, 0);
-        vector<int> path(numCourses, 0);
-
-        for(int i = 0; i < numCourses; i++) {
-
-            if(!visited[i]) {
-                if(dfs(i, adj, visited, path))
-                    return false;
+        queue<int> q;
+        for(int i = 0; i<n; i++){
+            if(ind[i] == 0){
+                q.push(i);
             }
         }
 
-        return true;
+        int completed = 0;
+
+        while(!q.empty()){
+
+            int c = q.front();
+            q.pop();
+            completed++;
+
+            for(auto it : adj[c]){
+                ind[it]--;
+                if(ind[it] == 0){
+                    q.push(it);
+                }
+            }
+        }
+
+        return n == completed;
     }
 };
