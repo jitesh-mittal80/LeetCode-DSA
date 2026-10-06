@@ -1,14 +1,18 @@
 class Solution {
 public:
     int minAddToMakeValid(string s) {
-        while (true) {
-            size_t pos = s.find("()");
+        int open = 0, insertions = 0;
 
-            if (pos == string::npos) {
-                return static_cast<int>(s.size());
+        for (char c : s) {
+            if (c == '(') {
+                open++;
+            } else if (open > 0) {
+                open--;
+            } else {
+                insertions++;
             }
-
-            s = s.substr(0, pos) + s.substr(pos + 2);
         }
+
+        return insertions + open;
     }
 };
