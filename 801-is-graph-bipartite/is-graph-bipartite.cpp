@@ -1,34 +1,38 @@
 class Solution {
 public:
-    bool isBipartite(vector<vector<int>>& graph) {
-        int n = graph.size();
-        vector<int> vis(n, -1);
-
-        for(int start = 0; start < n; start++) {
-            if(vis[start] != -1){
-                continue;
-            }
-            queue<int> q;
-            vis[start] = 0;
-
-            q.push(start);
-
-            while(!q.empty()){
-                int node = q.front();
-                q.pop();
-
-                for(int neighbor : graph[node]) {
-
-                    if(vis[neighbor] == -1) {
-                        vis[neighbor] = 1 - vis[node];
-                        q.push(neighbor);
-                    }else if(vis[neighbor] == vis[node]){
-                        return false;
-                    }
+    bool bfs(int i, vector<vector<int>>& graph, vector<int>& visited) {
+        queue<int> q;
+        q.push(i);
+        visited[i] = 0; 
+        
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            
+            for (auto const &it : graph[node]) {
+                if (visited[it] == -1) {
+                    q.push(it);
+                    visited[it] = 1 - visited[node];
+                }
+                if (visited[node] == visited[it]) {
+                    return false;
                 }
             }
         }
+        return true;
+    }
 
-        return true;    
+    bool isBipartite(vector<vector<int>>& graph) {
+        int V = graph.size();
+        vector<int> visited(V, -1);
+        
+        for (int i = 0; i < V; i++) {
+            if (visited[i] == -1) {
+                if (!bfs(i, graph, visited)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 };
